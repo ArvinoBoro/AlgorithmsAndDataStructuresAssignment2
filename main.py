@@ -1,10 +1,16 @@
+import time
+
 def merge_sort(A):
     if len(A) < 2:
         return
     
     m = len(A) // 2 
+    print("Divide Array")
     ax = A[0:m]
+    print(ax)
     ay = A[m:len(A)]
+    print(f"{ay}\n")
+    time.sleep(1.5)
 
     merge_sort(ax)
     merge_sort(ay)
@@ -23,10 +29,30 @@ def merge(A, ax, ay):
             A[i+j] = ay[j]
             j += 1 
 
-
 def main():
 
-    A = [11, 1, 30, 2, 51, 6, 29, 7, 67, 15, 118, 4, 89, 23]
+    print("Welcome to Arvin's merge sort visualizer!\n")
+    i = 0
+    while True:
+        try:
+            n = int(input("Enter the number of items: "))
+            break
+        except ValueError:
+            print("Error: Input must be an integer.")
+        
+    A = [0] * n 
+
+    while True:
+        try:    
+            if i < n:
+                user_input = int(input(f"Item {i+1}:"))
+                A[i] = user_input
+                i += 1    
+            else:
+                break    
+        except ValueError:
+            print("Error: Input must be an integer.")
+            
     merge_sort(A)
     print(A)
     
