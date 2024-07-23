@@ -1,8 +1,10 @@
 import time
-from playsound import playsound
+import pygame 
 
 underline_start = '\033[4m'
 underline_end = '\033[0m'
+
+pygame.mixer.init()
 
 def merge_sort(A, level, display, slow):
     if slow: time.sleep(2)
@@ -21,11 +23,14 @@ def merge_sort(A, level, display, slow):
     if slow: time.sleep(2)
     if display: print(f"{level * '  '}Divide A as evenly as possible.")
     a1 = A[:m]
-    if slow: time.sleep(0.5)
-    if display: print(f"{level * '  '}a1 = {a1}")
     a2 = A[m:]
-    if slow: time.sleep(0.5)
-    if display: print(f"{level * '  '}a2 = {a2}")
+    if slow:
+        time.sleep(0.5)
+        pygame.mixer.music.load("paper_rip.wav")
+        pygame.mixer.music.play()
+    if display: 
+        print(f"{level * '  '}a2 = {a2}")
+        print(f"{level * '  '}a1 = {a1}")
 
     merge_sort(a1, level + 1, display, slow)
     merge_sort(a2, level + 1, display, slow)
@@ -34,48 +39,36 @@ def merge_sort(A, level, display, slow):
 
 def merge(A, a1, a2, level, display, slow):
     if slow: time.sleep(2)
-    if display: print(f"\n{level * '  '}merge({A}, {a1}, {a2})")
-    if slow: time.sleep(2)
-    if display: print(f"{level * '  '}A = {A}")
-    if slow: time.sleep(2)
-    if display: print(f"{level * '  '}a1 = {a1}")
-    if slow: time.sleep(2)
-    if display: print(f"{level * '  '}a2 = {a2}")
+    if display: 
+            print(f"\n{level * '  '}merge({A}, {a1}, {a2})")
+            print(f"\n{level * '  '}a1 = {a1}") 
+            print(f"{level * '  '}a2 = {a2}")
     i = 0
     j = 0 
     while i + j < len(A):
         if slow: time.sleep(2)
-        if display: print(f"\n{level * '  '}i = {i}")
-        if slow: time.sleep(2)
-        if display: print(f"{level * '  '}j = {j}") 
         if j == len(a2):
-            if slow: time.sleep(2)
-            if display: print(f"{level * '  '}j = Length of a2")
-            A[i+j] = a1[i]
-            i += 1 
-        elif i < len(a1) and a1[i] < a2[j]:
-            if slow: time.sleep(2)
-            if display: print(f"{level * '  '}j ≠ Length of a2")
-            if slow: time.sleep(2)
-            if display: print(f"{level * '  '}i < Length of a1")
-            if slow: time.sleep(2)
-            if display: print(f"{level * '  '}a1[i] < a2[j]")
+            if display: print(f"{level * '  '}a2 has already been entirely copied from.")
             A[i+j] = a1[i]
             i += 1
+        elif i < len(a1) and a1[i] < a2[j]:
+            if display: print(f"{level * '  '}a1[{i}] < a2[{j}]")
+            A[i+j] = a1[i]
+            i += 1
+        elif i == len(a1):
+            if display: print(f"{level * '  '}a1 has already been entirely copied from.")
+            A[i+j] = a2[j]
+            j += 1
         else:
-            if slow: time.sleep(2)
-            if display: print(f"{level * '  '}j ≠ Length of a2")
-            if i >= len(a1):
-                if slow: time.sleep(2)
-                if display: print(f"{level * '  '}i ≥ Length of a1")
-            elif a1[i] >= a2[j]:
-                if slow: time.sleep(2)
-                if display: print(f"{level * '  '}a1[i] ≥ a2[j]")
+            if display: print(f"{level * '  '}a1[{i}] > a2[{j}]")
             A[i+j] = a2[j]
             j += 1 
         
-        if slow: time.sleep(2)
-        if display:
+        if slow:
+            time.sleep(2)
+            pygame.mixer.music.load("swap.mp3")
+            pygame.mixer.music.play()
+        if display: 
             print(f"{level * '  '}[", end='')
             for k in range(len(A)):
                 if k == i + j - 1:
@@ -84,7 +77,12 @@ def merge(A, a1, a2, level, display, slow):
                     print(f"{A[k]}", end='')
                 if k < len(A) - 1:
                     print(", ", end='')
-            print("]")
+            print("]\n")
+
+    if slow: time.sleep(2)
+    if display: 
+        print(f"{level * '  '}All elements of a1 and a2 have been copied over to A")
+        print(f"{level * '  '}Merged array: A = {A}")
 
 def main():
     print("Welcome to Arvin's merge sort visualizer!\n")
@@ -123,6 +121,8 @@ def main():
 
     merge_sort(A, 0, user_input != 0, user_input == 2)
     print(f"\nSorted array: {A}")
+    pygame.mixer.music.load("sort_complete.mp3")
+    pygame.mixer.music.play()
 
 if __name__ == '__main__': 
     main()
