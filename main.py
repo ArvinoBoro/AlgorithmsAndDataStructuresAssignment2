@@ -94,7 +94,6 @@ def main():
             print("Error: Input must be an integer.")
         
     A = [0] * n 
-
     i = 0
     while i < n:
         try:
@@ -104,10 +103,10 @@ def main():
         except ValueError:
             print("Error: Input must be an integer.")
 
-    print("\nDisplay algorithm steps?")
-    print("1. Yes, but fast")
-    print("2. Yes, but slow")        
+    print("\nDisplay the steps of the algorithm process?")
     print("0. No")
+    print("1. Yes; without SFX")
+    print("2. Yes; with SFX")        
     
     while True:
         try:
@@ -120,9 +119,10 @@ def main():
                 print("Error: Input must be an integer.")
 
     merge_sort(A, 0, user_input != 0, user_input == 2)
+    if user_input == 2:
+        pygame.mixer.music.load("sort_complete.mp3")
+        pygame.mixer.music.play()
     print(f"\nSorted array: {A}")
-    pygame.mixer.music.load("sort_complete.mp3")
-    pygame.mixer.music.play()
 
 if __name__ == '__main__': 
     main()
